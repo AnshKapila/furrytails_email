@@ -73,7 +73,7 @@ export default function Home() {
                 You&apos;re on the list. The ritual begins soon, and you&apos;ll be the first to know.
               </p>
 
-              <a href="https://www.instagram.com/" target="_blank" rel="noreferrer" data-kite-cta-id="instagram-follow" data-kite-role="secondary" data-kite-event="instagram_opened">
+              <a href="https://www.instagram.com/furrytail_story/" target="_blank" rel="noreferrer" data-kite-cta-id="instagram-follow" data-kite-role="secondary" data-kite-event="instagram_opened">
                 <Instagram aria-hidden="true" size={14} strokeWidth={1.25} />
                 Follow along
               </a>
