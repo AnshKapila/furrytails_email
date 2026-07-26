@@ -1,6 +1,6 @@
 import { NextRequest } from 'next/server';
 
-async function handleProxy(req: NextRequest, { params }: { params: { path: string[] } }) {
+async function handleProxy(req: NextRequest, { params }: { params: Promise<{ path: string[] }> }) {
   const baseUrl = process.env.PLATFORM_BASE_URL;
   const apiKey = process.env.PLATFORM_API_KEY;
 
@@ -11,7 +11,8 @@ async function handleProxy(req: NextRequest, { params }: { params: { path: strin
     });
   }
 
-  const targetPath = (params?.path || []).join('/');
+  const resolvedParams = await params;
+  const targetPath = (resolvedParams?.path || []).join('/');
   const targetUrl = new URL(`${baseUrl.replace(/\/$/, '')}/${targetPath}`);
   targetUrl.search = req.nextUrl.search;
 
