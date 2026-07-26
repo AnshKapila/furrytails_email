@@ -34,23 +34,23 @@ export default function Home() {
     event.preventDefault();
     if (!email.trim()) return;
     setStatus('sending');
-    // Prototype: always succeed immediately — fire-and-forget the real submission
+
     try {
-      fetch('/api/v1/kite-platform/website-contact-form-management/submit', {
+      const response = await fetch('/api/subscribe', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          email: email.trim(),
-          subject: 'Furrytail early access',
-          text_body: 'Early access signup for Furrytail.',
-          json_body: { email: email.trim(), signup: 'early_access' },
-        }),
-      }).catch(() => {});
+        body: JSON.stringify({ email: email.trim() }),
+      });
+      
+      if (response.ok) {
+        setStatus('complete');
+        window.__kite && window.__kite.conversion('signup');
+      } else {
+        setStatus('error');
+      }
     } catch {
-      // ignore
+      setStatus('error');
     }
-    setStatus('complete');
-    window.__kite && window.__kite.conversion('signup');
   }
 
   return (
