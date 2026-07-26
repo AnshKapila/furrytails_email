@@ -1,0 +1,56 @@
+{
+  "schema_version": "2.1",
+  "primary_conversion": "signup",
+  "primary_conversion_event": "signup_completed",
+  "primary_conversion_medium": "form",
+  "events": [
+    "instagram_opened",
+    "signup_completed",
+    "signup_started",
+    "form_submitted"
+  ],
+  "pages": [
+    {
+      "page_id": "home",
+      "surfaces": [
+        {
+          "surface_id": "home.early-access",
+          "position": 0,
+          "surface_type": "hero",
+          "ctas": [
+            {
+              "cta_id": "instagram-follow",
+              "kind": "cta",
+              "event": "instagram_opened",
+              "is_conversion": false,
+              "surface_id": "home.early-access",
+              "role": "secondary",
+              "href": "https://www.instagram.com/"
+            },
+            {
+              "cta_id": "early-access-signup",
+              "kind": "form",
+              "event": "signup_completed",
+              "is_conversion": true,
+              "surface_id": "home.early-access",
+              "goal_type": "signup",
+              "conversion_medium": "form"
+            },
+            {
+              "cta_id": "early-access-submit",
+              "kind": "cta",
+              "event": "signup_started",
+              "is_conversion": false,
+              "surface_id": "home.early-access",
+              "role": "primary"
+            }
+          ]
+        }
+      ],
+      "ctas": [],
+      "page_type": "landing"
+    }
+  ],
+  "shared": [],
+  "shared_surfaces": []
+}

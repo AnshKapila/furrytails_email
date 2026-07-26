@@ -1,0 +1,68 @@
+{
+  "url": "http://localhost:4403",
+  "viewports": [
+    {
+      "width": 1920,
+      "height": 1080
+    }
+  ],
+  "scanned_at": "2026-07-25T15:40:21.111684+00:00",
+  "elapsed_seconds": 6.66,
+  "total_elements": 27,
+  "full_page_screenshot": "/efs/team_426afa11-5c28-49f6-aad4-4b5c43061859/apps/app_eaccac4c-a287-4e55-89be-8007fdbfaef1/iterations/iter3/docs/qa/screenshots/full_page.png",
+  "summary": {
+    "total": 2,
+    "collision": 2,
+    "clipping": 0,
+    "contrast": 0,
+    "blocked-interaction": 0,
+    "runtime-error": 0,
+    "dropped": 0
+  },
+  "issues": [
+    {
+      "id": "collision-000",
+      "type": "collision",
+      "severity": "medium",
+      "confidence": 0.642,
+      "confidence_level": "medium",
+      "scroll_position": 0.0,
+      "region": {
+        "x": 368,
+        "y": 532.8,
+        "width": 1142,
+        "height": 380.0
+      },
+      "screenshot": "/efs/team_426afa11-5c28-49f6-aad4-4b5c43061859/apps/app_eaccac4c-a287-4e55-89be-8007fdbfaef1/iterations/iter3/docs/qa/screenshots/collision-000_crop.png",
+      "reasoning": "<img> ('img') overflows its container <div> by 42px h / 0px v.",
+      "ai_verdict": "confirmed",
+      "ai_reasoning": "Center image visibly extends above its container boundary into whitespace above gallery row",
+      "dropped": false,
+      "dropped_source": null,
+      "dropped_reason": null,
+      "code_references": []
+    },
+    {
+      "id": "collision-001",
+      "type": "collision",
+      "severity": "medium",
+      "confidence": 0.642,
+      "confidence_level": "medium",
+      "scroll_position": 0.0,
+      "region": {
+        "x": 410,
+        "y": 532.8,
+        "width": 1142,
+        "height": 380.0
+      },
+      "screenshot": "/efs/team_426afa11-5c28-49f6-aad4-4b5c43061859/apps/app_eaccac4c-a287-4e55-89be-8007fdbfaef1/iterations/iter3/docs/qa/screenshots/collision-001_crop.png",
+      "reasoning": "<img> ('img') overflows its container <div> by 42px h / 0px v.",
+      "ai_verdict": "confirmed",
+      "ai_reasoning": "Center image visibly extends above container boundary by significant margin",
+      "dropped": false,
+      "dropped_source": null,
+      "dropped_reason": null,
+      "code_references": []
+    }
+  ]
+}

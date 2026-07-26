@@ -1,0 +1,156 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-ivory: #F8F5F1;
+  --color-beige: #E9E2D7;
+  --color-travertine: #D8CFC4;
+  --color-stone: #BEB8AF;
+  --color-sage: #8D9A83;
+  --color-moss: #68735F;
+  --color-charcoal: #3B3A38;
+  --font-display: var(--font-cormorant);
+  --font-sans: var(--font-inter);
+  --radius-none: 0px;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; min-height: 100%; background: #F8F5F1; color: #3B3A38; }
+body { font-family: var(--font-inter), Inter, sans-serif; font-weight: 300; }
+button, input { font: inherit; border-radius: 0; }
+
+.landing { min-height: 100dvh; background: #F8F5F1; overflow: clip; }
+.hero { min-height: 100dvh; position: relative; display: flex; flex-direction: column; align-items: center; padding: 34px 32px 28px; }
+.brand-logo { position: absolute; top: 34px; left: 36px; width: 139px; height: auto; object-fit: contain; }
+.hero-copy { width: 100%; max-width: 700px; text-align: center; margin-top: clamp(72px, 11dvh, 125px); }
+.eyebrow { margin: 0 0 14px; color: #68735F; font-size: .6rem; font-weight: 400; line-height: 1.2; letter-spacing: .25em; text-transform: uppercase; }
+h1 { max-width: 550px; margin: 0 auto; font-family: var(--font-cormorant), Georgia, serif; font-size: clamp(2.5rem, 5vw, 4.5rem); font-weight: 300; line-height: .94; letter-spacing: -.035em; }
+h1 em { font-weight: 300; }
+.intro { max-width: 550px; margin: 23px auto 0; font-size: .95rem; line-height: 1.65; }
+.signup-form { width: min(550px, 100%); display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin: 34px auto 0; }
+.signup-form input { width: min(354px, 100%); min-height: 48px; padding: 0 16px; color: #3B3A38; background: #F8F5F1; border: 1px solid #D8CFC4; outline: none; font-size: .875rem; font-weight: 300; }
+.signup-form input::placeholder { color: #BEB8AF; opacity: 1; }
+.signup-form input:focus { border-color: #68735F; }
+.signup-form button { min-height: 48px; padding: 0 21px; cursor: pointer; border: 1px solid #3B3A38; background: #3B3A38; color: #F8F5F1; font-size: .75rem; font-weight: 300; transition: background-color 160ms ease, color 160ms ease; overflow: hidden; }
+.signup-form button:hover, .signup-form button:focus-visible { background: #68735F; border-color: #68735F; outline: none; }
+.signup-form button:disabled { opacity: .72; cursor: wait; }
+.signup-form button:hover .btn-text { animation: btn-text-wave 800ms ease forwards; }
+.btn-text { display: inline-block; }
+.form-error { width: 100%; margin: 2px 0 0; color: #68735F; font-size: .75rem; }
+.confirmation { margin: 34px auto 0; max-width: 490px; }
+.confirmation p { margin: 0; font-size: .95rem; line-height: 1.65; }
+.confirmation-success { color: #3a7d44; font-size: .95rem; line-height: 1.65; margin: 0; }
+.confirmation-success--secondary { margin-top: 12px; }
+.confirmation a { display: inline-flex; align-items: center; gap: 8px; margin-top: 17px; color: #3B3A38; font-size: .7rem; font-weight: 400; letter-spacing: .15em; text-decoration: none; text-transform: uppercase; transition: color 160ms ease; }
+.confirmation a:hover, .confirmation a:focus-visible { color: #68735F; outline: none; }
+.form-privacy { width: 100%; margin: 4px 0 0; color: #BEB8AF; font-size: .68rem; font-weight: 300; text-align: center; letter-spacing: .04em; }
+
+/* ── Button text wave animation ── */
+@keyframes btn-text-wave {
+  0%   { transform: translateY(0); }
+  20%  { transform: translateY(-5px); }
+  45%  { transform: translateY(3px); }
+  65%  { transform: translateY(-2px); }
+  80%  { transform: translateY(1px); }
+  100% { transform: translateY(0); }
+}
+
+/* ── Desktop photo row ── */
+.photo-row-desktop { width: min(1100px, 90vw); display: flex; align-items: flex-end; justify-content: center; gap: clamp(8px, 1.2vw, 16px); margin-top: clamp(42px, 6dvh, 64px); }
+.photo-row-mobile { display: none; }
+
+/* Desktop frames — fixed outer container; image zooms inside */
+.ritual-frame { flex: 0 0 auto; overflow: hidden; display: block; position: relative; }
+.ritual-frame-1, .ritual-frame-5 { width: min(15vw, 180px); aspect-ratio: 9 / 11; }
+.ritual-frame-2, .ritual-frame-4 { width: min(18.3vw, 220px); aspect-ratio: 11 / 14; }
+.ritual-frame-3 { width: min(26.7vw, 320px); aspect-ratio: 16 / 19; }
+
+.ritual-image { width: 100%; height: 100%; display: block; object-fit: cover; object-position: center; transform: scale(1); --ri-sat: saturate(50%); filter: var(--ri-sat); transition: transform 800ms ease, filter 800ms ease; }
+.ritual-frame:hover .ritual-image { transform: scale(1.2); --ri-sat: saturate(100%); filter: var(--ri-sat); }
+
+/* Keep legacy class names for any other references */
+.image-1, .image-2, .image-3, .image-4, .image-5 { width: 100%; height: 100%; }
+
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+
+/* ── Mobile styles ── */
+@media (max-width: 600px) {
+  /* Hero: exactly one viewport tall on mobile — flex fills remaining space for image block */
+  .hero { height: 100dvh; min-height: unset; padding: 64px 18px 36px; justify-content: space-between; overflow: hidden; }
+  .brand-logo { top: 26px; left: 22px; width: 112px; }
+  /* hero-copy sits last (bottom) */
+  .hero-copy { order: 1; max-width: 340px; margin-top: 0; }
+  .eyebrow { display: none; }
+  h1 { font-size: clamp(2.15rem, 10vw, 2.65rem); line-height: .96; }
+  .intro { margin-top: 14px; font-size: .76rem; line-height: 1.55; }
+  .signup-form { max-width: 320px; display: grid; grid-template-columns: 1fr; gap: 7px; margin-top: 18px; }
+  .signup-form input, .signup-form button { width: 100%; min-height: 40px; font-size: .72rem; }
+  .signup-form button { padding: 0 14px; }
+  .confirmation { margin-top: 18px; max-width: 320px; }
+  .confirmation p { font-size: .76rem; line-height: 1.55; }
+  .confirmation-success { font-size: .76rem; line-height: 1.55; }
+  .confirmation a { margin-top: 12px; font-size: .63rem; }
+
+  /* Hide desktop row, show mobile marquee — images first (top) */
+  .photo-row-desktop { display: none; }
+  .photo-row-mobile {
+    order: -1;
+    flex: 1;
+    display: block;
+    width: 100vw;
+    margin-left: -18px;
+    margin-block-start: 24px;
+    margin-block-end: 24px;
+    overflow: hidden;
+  }
+
+  /* Marquee track: height-driven so frames fill the 60dvh container */
+  .marquee-track {
+    display: flex;
+    align-items: stretch;
+    height: 100%;
+    gap: 7px;
+    width: max-content;
+    animation: marquee-scroll 12s linear infinite;
+  }
+
+  /* Each mobile frame — height fills container, width derived from 3:4 portrait ratio */
+  .mobile-frame {
+    flex: 0 0 auto;
+    height: 100%;
+    width: auto;
+    aspect-ratio: 3 / 4;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .mobile-image {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    object-position: center;
+  }
+}
+
+/* Marquee keyframes — translate by half (5 original images) */
+@keyframes marquee-scroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@media (max-height: 690px) and (max-width: 600px) {
+  .hero { padding-top: 52px; padding-bottom: 24px; }
+  .brand-logo { top: 20px; }
+  .photo-row-mobile { margin-block-start: 16px; margin-block-end: 16px; }
+  .intro { margin-top: 11px; }
+  .signup-form { margin-top: 14px; }
+}
+
+/* Hide Next.js dev/build indicators and error overlays. `devIndicators: false`
+ * in next.config.js disables the build-activity badge, but the dev-tools
+ * button and error toasts still render into <nextjs-portal> in dev. End
+ * users viewing the live sandbox should not see these. The element does not
+ * exist in production builds, so this rule is a harmless no-op there. */
+nextjs-portal {
+  display: none !important;
+}

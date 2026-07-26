@@ -1,0 +1,72 @@
+{
+  "siteSettings": {
+    "brandName": "Northwind Studio",
+    "navItems": [{ "label": "Blog", "href": "/blog" }]
+  },
+  "pages": [
+    {
+      "slug": "home",
+      "title": "Home",
+      "layout": [
+        {
+          "blockType": "hero",
+          "heading": "We build products people love",
+          "subheading": "From idea to launch."
+        },
+        {
+          "blockType": "collectionList",
+          "heading": "From the blog",
+          "subheading": "Latest writing from the team.",
+          "collection": "posts",
+          "limit": 3
+        }
+      ]
+    }
+  ],
+  "collections": {
+    "posts": [
+      {
+        "title": "Designing for trust",
+        "slug": "blog/designing-for-trust",
+        "author": "Jane Doe",
+        "publishDate": "2026-05-01T00:00:00.000Z",
+        "status": "published",
+        "topicCluster": "design",
+        "intent": "awareness",
+        "seoTitle": "Designing for trust",
+        "metaDescription": "How small UI decisions build user trust.",
+        "featuredImage": "https://static.kite.ai/image/upload/app/demo/post.png",
+        "excerpt": "Small decisions, big trust.",
+        "body": {
+          "root": {
+            "type": "root",
+            "format": "",
+            "indent": 0,
+            "version": 1,
+            "direction": "ltr",
+            "children": [
+              {
+                "type": "paragraph",
+                "format": "",
+                "indent": 0,
+                "version": 1,
+                "direction": "ltr",
+                "children": [
+                  {
+                    "type": "text",
+                    "text": "Trust is earned one interaction at a time.",
+                    "format": 0,
+                    "detail": 0,
+                    "mode": "normal",
+                    "style": "",
+                    "version": 1
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    ]
+  }
+}

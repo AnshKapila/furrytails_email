@@ -1,0 +1,99 @@
+{
+  "siteSettings": {
+    "brandName": "Northwind Studio",
+    "logoUrl": "https://static.kite.ai/image/upload/app/demo/logo.png",
+    "colors": { "primary": "#0f172a", "accent": "#6366f1" },
+    "fonts": { "heading": "Inter", "body": "Inter" },
+    "navItems": [
+      { "label": "Home", "href": "/" },
+      { "label": "Pricing", "href": "/pricing" }
+    ],
+    "footer": {
+      "tagline": "Design that ships.",
+      "copyright": "© 2026 Northwind Studio",
+      "links": [{ "label": "Privacy", "href": "/privacy" }]
+    },
+    "socialLinks": [{ "platform": "x", "href": "https://x.com/northwind" }],
+    "contact": { "email": "hi@northwind.studio", "phone": "+1 555 0100" },
+    "defaultSeo": {
+      "title": "Northwind Studio",
+      "description": "A boutique product studio."
+    }
+  },
+  "pages": [
+    {
+      "slug": "home",
+      "title": "Home",
+      "seo": {
+        "title": "Northwind Studio — Home",
+        "description": "We design and build digital products.",
+        "noindex": false
+      },
+      "layout": [
+        {
+          "blockType": "hero",
+          "eyebrow": "Studio",
+          "heading": "We build products people love",
+          "subheading": "From idea to launch.",
+          "primaryCtaLabel": "Get started",
+          "primaryCtaHref": "/contact",
+          "imageUrl": "https://static.kite.ai/image/upload/app/demo/hero.png"
+        },
+        {
+          "blockType": "featureGrid",
+          "heading": "What we do",
+          "features": [
+            { "title": "Design", "description": "Brand and UI." },
+            { "title": "Build", "description": "Web and mobile." }
+          ]
+        },
+        {
+          "blockType": "faq",
+          "heading": "FAQ",
+          "items": [
+            { "question": "How long?", "answer": "Typically 6–8 weeks." }
+          ]
+        },
+        {
+          "blockType": "richText",
+          "content": {
+            "root": {
+              "type": "root",
+              "format": "",
+              "indent": 0,
+              "version": 1,
+              "direction": "ltr",
+              "children": [
+                {
+                  "type": "paragraph",
+                  "format": "",
+                  "indent": 0,
+                  "version": 1,
+                  "direction": "ltr",
+                  "children": [
+                    {
+                      "type": "text",
+                      "text": "We are a small team with a long track record.",
+                      "format": 0,
+                      "detail": 0,
+                      "mode": "normal",
+                      "style": "",
+                      "version": 1
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "blockType": "cta",
+          "heading": "Ready to start?",
+          "body": "Let's talk.",
+          "ctaLabel": "Contact us",
+          "ctaHref": "/contact"
+        }
+      ]
+    }
+  ]
+}

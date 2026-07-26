@@ -1,0 +1,28 @@
+{
+  "siteSettings": {
+    "logoUrl": "https://static.kite.ai/image/upload/app/demo/logo.png",
+    "tagline": "this key does not exist on SiteSettings"
+  },
+  "pages": [
+    {
+      "slug": "home",
+      "title": "Home",
+      "layout": [
+        {
+          "blockType": "hero",
+          "subheading": "Hero with no heading (heading is required)",
+          "headline": "wrong field name — should be heading"
+        },
+        {
+          "blockType": "splitFeature",
+          "heading": "unknown block type"
+        },
+        {
+          "blockType": "featureGrid",
+          "heading": 42,
+          "features": "should be an array, not a string"
+        }
+      ]
+    }
+  ]
+}

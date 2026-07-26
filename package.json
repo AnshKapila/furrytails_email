@@ -1,0 +1,49 @@
+{
+  "name": "@app",
+  "version": "0.0.1",
+  "private": true,
+  "packageManager": "pnpm@10.14.0",
+  "engines": {
+    "node": ">=22.17.1",
+    "pnpm": "~10.14.0"
+  },
+  "scripts": {
+    "dev": "next dev -p 4321",
+    "build": "next build",
+    "start": "next start -p 4321",
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit",
+    "prettier": "prettier --check .",
+    "prettier:fix": "prettier --write ."
+  },
+  "dependencies": {
+    "@appsmithorg/template-backend": "^1.1.1",
+    "@appsmithorg/template-frontend": "^1.1.9",
+    "@appsmithorg/template-shared": "^1.0.4",
+    "lucide-react": "^0.525.0",
+    "next": "16.2.7",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "4.2.2",
+    "@types/node": "^22.17.1",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "autoprefixer": "10.4.27",
+    "postcss": "8.5.15",
+    "prettier": "3.6.2",
+    "tailwindcss": "4.2.2",
+    "typescript": "^5.8.3"
+  },
+  "pnpm": {
+    "overrides": {
+      "axios": "^1.16.0",
+      "form-data": "4.0.6",
+      "vite@>=8.0.0 <9.0.0": "^8.0.16",
+      "fast-uri": "^3.1.2",
+      "postcss@<8.5.10": "8.5.10"
+    },
+    "onlyBuiltDependencies": []
+  }
+}

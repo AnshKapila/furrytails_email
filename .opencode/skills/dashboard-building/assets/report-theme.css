@@ -1,0 +1,791 @@
+/* Kite report design kit — the shared stylesheet behind every hosted report,
+ * dashboard, and internal tool published via kite-dashboards.
+ *
+ * Single source of truth. This file ships to two places from this one path:
+ *   - agent sandboxes (inside the dashboard-building skill directory), where
+ *     pages are built and verified locally against it;
+ *   - every portal deploy (dashboard_service copies it to /assets/ and
+ *     /dashboards/assets/), where published pages load it.
+ * Pages link it RELATIVELY (assets/report-theme.css) and must not inline or
+ * fork it — retheming works precisely because the pages share this file.
+ *
+ * Brand contract: the kit is team-agnostic. A page sets its team's brand by
+ * overriding custom properties in a small inline <style>, e.g.
+ *
+ *   :root { --kit-brand: #0e4de0; --kit-brand-contrast: #fff;
+ *           --kit-font: "Inter", system-ui, sans-serif; }
+ *
+ * Only override tokens; page-specific CSS is for genuinely page-specific
+ * shapes the kit does not provide.
+ */
+
+/* --- Tokens ---------------------------------------------------------------- */
+
+:root {
+  /* Brand (override per page from the wiki brand record). */
+  --kit-brand: #2450d6;
+  --kit-brand-contrast: #ffffff;
+  --kit-font: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --kit-heading-font: var(--kit-font);
+
+  /* Neutrals. */
+  --kit-bg: #ffffff;
+  --kit-surface: #f6f7f9;
+  --kit-fg: #1a1a2e;
+  --kit-muted: #6b7280;
+  --kit-border: #e3e5e8;
+
+  /* Status vocabulary — the only non-brand chromatic colors on a page. */
+  --kit-good: #157f3d;
+  --kit-watch: #b45309;
+  --kit-bad: #b91c1c;
+
+  /* Layout. The settled editorial column; override only when a project's
+   * CLAUDE.md pins another value in the 1000–1200px range. */
+  --kit-column: 1120px;
+  --kit-radius: 10px;
+}
+
+/* --- Base ------------------------------------------------------------------ */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--kit-bg);
+  color: var(--kit-fg);
+  font-family: var(--kit-font);
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+img,
+svg {
+  max-width: 100%;
+  height: auto;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--kit-heading-font);
+  line-height: 1.25;
+  margin: 0 0 0.5rem;
+}
+
+p {
+  margin: 0 0 1rem;
+}
+
+a {
+  color: var(--kit-brand);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* --- Layout ------------------------------------------------------------------
+ * One centered content column. Blocks (charts, grids, rows) use its full
+ * width; prose and callouts cap at a 70ch measure, flush left. */
+
+.report-main {
+  max-width: var(--kit-column);
+  margin-inline: auto;
+  padding-inline: clamp(16px, 4vw, 64px);
+  padding-block: clamp(20px, 4vw, 48px);
+}
+
+.prose {
+  max-width: 70ch;
+}
+
+.wrap-any {
+  overflow-wrap: anywhere;
+}
+
+/* --- Topbar ------------------------------------------------------------------
+ * Renders the exact persisted logo asset (as a data: URI img) or, when no
+ * logo is recorded, the company/team name as plain styled text. */
+
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px clamp(16px, 4vw, 64px);
+  border-bottom: 1px solid var(--kit-border);
+  background: var(--kit-topbar-bg, var(--kit-bg));
+  color: var(--kit-topbar-fg, var(--kit-fg));
+}
+
+.topbar img {
+  height: 26px;
+  width: auto;
+}
+
+.topbar .topbar-name {
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+/* --- Layer 1 — the answer, first screen ------------------------------------ */
+
+.eyebrow {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--kit-muted);
+  margin: 0 0 0.5rem;
+}
+
+.headline {
+  font-size: clamp(1.55rem, 4.4vw, 2.9rem);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin: 0 0 0.75rem;
+}
+
+.standfirst {
+  font-size: 1.1rem;
+  color: var(--kit-muted);
+  max-width: 70ch;
+  margin: 0 0 0.75rem;
+}
+
+.meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 16px;
+  font-size: 0.8125rem;
+  color: var(--kit-muted);
+  margin: 0 0 1.5rem;
+}
+
+/* Stat cards: value (large), lowercase label, one context fragment. Four-up
+ * on desktop, two-up on phones, no media query needed. */
+
+.stat-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 12px;
+  margin: 0 0 1.5rem;
+}
+
+.stat-card {
+  border: 1px solid var(--kit-border);
+  border-radius: var(--kit-radius);
+  padding: 14px 16px;
+  min-width: 0;
+}
+
+.stat-value {
+  font-size: clamp(1.5rem, 3vw, 2.1rem);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.2;
+}
+
+.stat-label {
+  font-size: 0.8125rem;
+  text-transform: lowercase;
+  color: var(--kit-fg);
+  margin-top: 2px;
+}
+
+.stat-context {
+  font-size: 0.75rem;
+  color: var(--kit-muted);
+  margin-top: 2px;
+  overflow-wrap: anywhere;
+}
+
+/* Signed deltas, colored by whether the movement HELPS (a falling cost is
+ * good): add to a span inside a stat card or list row. */
+
+.delta-good {
+  color: var(--kit-good);
+}
+
+.delta-bad {
+  color: var(--kit-bad);
+}
+
+.delta-watch {
+  color: var(--kit-watch);
+}
+
+/* --- Layer 2 — evidence sections -------------------------------------------- */
+
+.section {
+  margin-block: 2.25rem;
+}
+
+.section > h2 {
+  font-size: 1.35rem;
+  font-weight: 650;
+}
+
+.section-lead {
+  color: var(--kit-muted);
+  max-width: 70ch;
+  margin: 0 0 1rem;
+}
+
+/* Under every chart or data block: one small line naming source and window. */
+
+.source-line {
+  font-size: 0.75rem;
+  color: var(--kit-muted);
+  margin-top: 6px;
+}
+
+/* --- Callouts — quiet, and only when earned ----------------------------------
+ * The ONE callout form: compact panel, 1px neutral border, 3px left accent,
+ * ~6% accent tint, tiny uppercase kind tag, one to three sentences. Default
+ * accent is the brand; modifiers recolor for caveat/risk/win. */
+
+.callout {
+  --callout-accent: var(--kit-brand);
+  border: 1px solid var(--kit-border);
+  border-left: 3px solid var(--callout-accent);
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--callout-accent) 6%, transparent);
+  padding: 12px 16px;
+  max-width: 70ch;
+  margin-block: 1.25rem;
+}
+
+.callout-caveat {
+  --callout-accent: var(--kit-watch);
+}
+
+.callout-risk {
+  --callout-accent: var(--kit-bad);
+}
+
+.callout-win {
+  --callout-accent: var(--kit-good);
+}
+
+.callout-tag {
+  display: block;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--callout-accent);
+  margin-bottom: 4px;
+}
+
+.callout p:last-child {
+  margin-bottom: 0;
+}
+
+/* --- Status vocabulary --------------------------------------------------------
+ * 7px dot + uppercase label. Fixed set: Works (good), Works in context /
+ * Watch (watch), Fix (bad). Verdict text for check rows reuses the colors. */
+
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.status::before {
+  content: '';
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: currentColor;
+  flex: none;
+}
+
+.status-works {
+  color: var(--kit-good);
+}
+
+.status-watch {
+  color: var(--kit-watch);
+}
+
+.status-fix {
+  color: var(--kit-bad);
+}
+
+.verdict {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.verdict-pass {
+  color: var(--kit-good);
+}
+
+.verdict-watch {
+  color: var(--kit-watch);
+}
+
+.verdict-fail {
+  color: var(--kit-bad);
+}
+
+/* --- Finding cards ------------------------------------------------------------ */
+
+.finding-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 12px;
+}
+
+.finding-card {
+  border: 1px solid var(--kit-border);
+  border-radius: var(--kit-radius);
+  padding: 14px 16px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.finding-card p {
+  margin: 0;
+}
+
+/* --- Buttons --------------------------------------------------------------------
+ * Trigger look announces the surface: text buttons (.more) sit on cards and
+ * open modals; pill buttons (.pill) sit at section ends and open drawers. */
+
+.more {
+  align-self: start;
+  border: 0;
+  background: none;
+  padding: 0;
+  font: inherit;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--kit-brand);
+  cursor: pointer;
+}
+
+.more:hover {
+  text-decoration: underline;
+}
+
+.pill {
+  display: inline-block;
+  border: 1px solid var(--kit-border);
+  border-radius: 999px;
+  background: var(--kit-bg);
+  padding: 6px 14px;
+  font: inherit;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--kit-fg);
+  cursor: pointer;
+  margin-top: 0.75rem;
+}
+
+.pill:hover {
+  border-color: var(--kit-muted);
+}
+
+/* --- Bar rows ---------------------------------------------------------------
+ * The default comparison chart: label / track / value. The subject's own row
+ * takes .bar-row-subject so the reader finds "us" at a glance; a subject
+ * absent from a ranking still renders its row with a zero-width fill. */
+
+.bar-rows {
+  display: grid;
+  gap: 8px;
+  margin-block: 0.75rem;
+}
+
+.bar-row {
+  display: grid;
+  grid-template-columns: minmax(72px, 130px) minmax(0, 1fr) 52px;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.bar-label {
+  font-size: 0.8125rem;
+  min-width: 0;
+}
+
+.bar-track {
+  background: var(--kit-surface);
+  border-radius: 4px;
+  height: 14px;
+  min-width: 0;
+}
+
+.bar-fill {
+  background: var(--kit-brand);
+  border-radius: 4px;
+  height: 100%;
+}
+
+.bar-row-subject .bar-label {
+  font-weight: 700;
+}
+
+.bar-row-subject .bar-fill {
+  background: var(--kit-fg);
+}
+
+.bar-value {
+  font-size: 0.8125rem;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+@media (max-width: 480px) {
+  .bar-row {
+    grid-template-columns: minmax(0, 1fr) 52px;
+  }
+
+  .bar-label {
+    grid-column: 1 / -1;
+  }
+}
+
+/* --- Presence matrix -----------------------------------------------------------
+ * n-of-m presence across a list: one row per item, small square cells filled
+ * per hit, the count at the row's end. */
+
+.matrix-rows {
+  display: grid;
+  gap: 8px;
+  margin-block: 0.75rem;
+}
+
+.matrix-row {
+  display: grid;
+  grid-template-columns: minmax(72px, 160px) minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+}
+
+.matrix-label {
+  font-size: 0.8125rem;
+  min-width: 0;
+}
+
+.matrix-cells {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+}
+
+.matrix-cell {
+  width: 10px;
+  height: 10px;
+  border: 1px solid var(--kit-border);
+  border-radius: 2px;
+  background: var(--kit-bg);
+}
+
+.matrix-cell-hit {
+  background: var(--kit-brand);
+  border-color: var(--kit-brand);
+}
+
+.matrix-count {
+  font-size: 0.75rem;
+  color: var(--kit-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* --- Check rows ------------------------------------------------------------------
+ * Pass/fail audits: name, colored verdict, one-line evidence in muted text,
+ * grouped under a category heading with a passed/total count. */
+
+.check-group {
+  margin-block: 1.25rem;
+}
+
+.check-group-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 4px;
+}
+
+.check-group-head h3 {
+  font-size: 1rem;
+  margin: 0;
+}
+
+.check-group-count {
+  font-size: 0.8125rem;
+  color: var(--kit-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.check-row {
+  padding-block: 8px;
+  border-bottom: 1px solid var(--kit-border);
+}
+
+.check-row:last-child {
+  border-bottom: 0;
+}
+
+.check-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.check-name {
+  font-size: 0.875rem;
+  min-width: 0;
+}
+
+.check-evidence {
+  font-size: 0.8125rem;
+  color: var(--kit-muted);
+  overflow-wrap: anywhere;
+}
+
+/* --- List rows ---------------------------------------------------------------
+ * The default for row data (instead of a table): one bordered row per item,
+ * label + up to three right-aligned values. Restacks below ~480px. */
+
+.list-rows {
+  display: grid;
+  gap: 8px;
+  margin-block: 0.75rem;
+}
+
+.list-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: 4px 12px;
+  border: 1px solid var(--kit-border);
+  border-radius: var(--kit-radius);
+  padding: 10px 14px;
+}
+
+.list-row-label {
+  font-size: 0.875rem;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.list-row-values {
+  display: flex;
+  gap: 12px;
+  align-items: baseline;
+  font-size: 0.875rem;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+  overflow-wrap: anywhere;
+}
+
+.list-row-values .muted {
+  font-size: 0.8125rem;
+}
+
+@media (max-width: 480px) {
+  .list-row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .list-row-values {
+    text-align: left;
+  }
+}
+
+/* Items carrying more than three values become cards on the stat-card grid. */
+
+.item-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+  margin-block: 0.75rem;
+}
+
+.item-card {
+  border: 1px solid var(--kit-border);
+  border-radius: var(--kit-radius);
+  padding: 14px 16px;
+  min-width: 0;
+}
+
+/* --- Tables ---------------------------------------------------------------------
+ * Only when the task explicitly asks for one. ALWAYS inside .table-wrap — a
+ * bare table forces the page wider than a phone screen and clips everything. */
+
+.table-wrap {
+  overflow-x: auto;
+  margin-block: 0.75rem;
+}
+
+.table-wrap table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+.table-wrap th {
+  text-align: left;
+  font-weight: 600;
+  border-bottom: 2px solid var(--kit-border);
+  padding: 8px 10px;
+  white-space: normal;
+}
+
+.table-wrap td {
+  border-bottom: 1px solid var(--kit-border);
+  padding: 8px 10px;
+  vertical-align: top;
+  overflow-wrap: anywhere;
+}
+
+/* --- Dialogs -----------------------------------------------------------------
+ * Native <dialog> only, wired by report-kit.js (data-open / data-close /
+ * backdrop click). Prose depth opens in a centered .modal; list depth opens
+ * in a right-docked .drawer that becomes a bottom sheet below ~640px. */
+
+dialog.modal,
+dialog.drawer {
+  border: 1px solid var(--kit-border);
+  padding: 0;
+  color: inherit;
+  font: inherit;
+}
+
+dialog.modal::backdrop,
+dialog.drawer::backdrop {
+  background: rgb(15 18 25 / 0.4);
+}
+
+dialog.modal {
+  width: min(560px, 92vw);
+  max-height: 84dvh;
+  border-radius: 12px;
+  margin: auto;
+}
+
+dialog.drawer {
+  margin: 0 0 0 auto;
+  width: min(460px, 94vw);
+  height: 100dvh;
+  max-height: 100dvh;
+  border-radius: 0;
+}
+
+@media (max-width: 640px) {
+  dialog.drawer {
+    margin: auto 0 0;
+    width: 100vw;
+    max-height: 84dvh;
+    height: auto;
+    border-radius: 16px 16px 0 0;
+  }
+}
+
+.dialog-head {
+  position: sticky;
+  top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: var(--kit-bg);
+  border-bottom: 1px solid var(--kit-border);
+  padding: 12px 16px;
+}
+
+.dialog-head h3 {
+  font-size: 1rem;
+  margin: 0;
+}
+
+.dialog-close {
+  border: 0;
+  background: none;
+  font: inherit;
+  font-size: 1.1rem;
+  line-height: 1;
+  color: var(--kit-muted);
+  cursor: pointer;
+  padding: 4px;
+}
+
+.dialog-body {
+  padding: 14px 16px;
+  overflow-y: auto;
+  overflow-wrap: anywhere;
+}
+
+.dialog-source {
+  border-top: 1px solid var(--kit-border);
+  padding: 10px 16px;
+  font-size: 0.75rem;
+  color: var(--kit-muted);
+}
+
+/* --- Details (inline tails) ---------------------------------------------------- */
+
+details.details {
+  border: 1px solid var(--kit-border);
+  border-radius: var(--kit-radius);
+  padding: 10px 14px;
+  margin-block: 0.75rem;
+}
+
+details.details > summary {
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+/* --- Charts ----------------------------------------------------------------------
+ * Inline SVG or styled divs only. Line charts: <svg> with a viewBox. */
+
+.chart {
+  margin: 0 0 1rem;
+}
+
+.chart svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* --- Utilities ------------------------------------------------------------------- */
+
+.muted {
+  color: var(--kit-muted);
+}
+
+.small {
+  font-size: 0.8125rem;
+}
+
+.num {
+  font-variant-numeric: tabular-nums;
+}
