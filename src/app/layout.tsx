@@ -1,13 +1,5 @@
 import type { Metadata } from 'next';
 import Script from 'next/script';
-import {
-  RUNTIME_ERROR_CAPTURE_SCRIPT,
-  buildErrorProviderPin,
-  buildPosthogInitScript,
-  escapeJsonForScript,
-  isValidPosthogToken,
-  SCRIPT_INJECTOR_CDN_URL,
-} from '@appsmithorg/template-frontend';
 import DevErrorOverlay from '@/components/dev-error-overlay';
 import { getBaseUrl } from '@/lib/site-url';
 import { cormorant, inter } from './fonts';
@@ -79,70 +71,6 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        {/* Runtime error capture. Inlined first so window listeners attach before */}
-        {/* any user code runs, catching async/window errors + unhandled rejections */}
-        {/* that the global-error boundary (render errors only) never sees. Gated */}
-        {/* on either analytics token. The provider pin (ANALYTICS_ERROR_PROVIDER, */}
-        {/* set by provisioning to match the backend Errors view) is prepended so */}
-        {/* writes go to the same provider reads do; absent, it falls back to */}
-        {/* whichever SDK is present. Script + pin live in the shared package (one */}
-        {/* source with the Vite runtime-error-capture plugin). */}
-        {process.env.NODE_ENV === 'production' &&
-          (process.env.NEXT_PUBLIC_PIRSCH_TOKEN ||
-            process.env.NEXT_PUBLIC_POSTHOG_KEY) && (
-            <script
-              id="runtime-error-capture"
-              dangerouslySetInnerHTML={{
-                __html:
-                  buildErrorProviderPin(
-                    process.env.NEXT_PUBLIC_ANALYTICS_ERROR_PROVIDER,
-                  ) + RUNTIME_ERROR_CAPTURE_SCRIPT,
-              }}
-            />
-          )}
-        {/* Script injector enables Kite's point-and-click editor inside the */}
-        {/* preview iframe. Skipped in production builds — point-and-click is */}
-        {/* an editing-time capability, not a runtime feature for end users. */}
-        {process.env.NODE_ENV !== 'production' && (
-          <Script src={SCRIPT_INJECTOR_CDN_URL} strategy="afterInteractive" />
-        )}
-        {/* Pirsch analytics. A static <script> (not next/script) so it sits in */}
-        {/* the server HTML at parse time — pa.js then auto-tracks the first */}
-        {/* pageview and SPA navigations. next/script's afterInteractive injects */}
-        {/* post-load, after pa.js's load hooks have fired, so the initial */}
-        {/* pageview is missed; beforeInteractive can strip data-* in app router */}
-        {/* (vercel/next.js#49830). Token injected at build via */}
-        {/* NEXT_PUBLIC_PIRSCH_TOKEN (deployment_service); absent in dev. */}
-        {process.env.NODE_ENV === 'production' &&
-          process.env.NEXT_PUBLIC_PIRSCH_TOKEN && (
-            <script
-              defer
-              src="https://api.pirsch.io/pa.js"
-              id="pianjs"
-              data-code={process.env.NEXT_PUBLIC_PIRSCH_TOKEN}
-            />
-          )}
-        {/* PostHog analytics (autocapture + pageviews). Inline so it sits in the */}
-        {/* server HTML at parse time, beside Pirsch. */}
-        {posthogScript && (
-          <script
-            id="posthog-analytics"
-            dangerouslySetInnerHTML={{ __html: posthogScript }}
-          />
-        )}
-        {/* Kite custom-event analytics SDK. Inline envelope (parse-time, after */}
-        {/* PostHog init) then the deferred stamp-driven SDK from public/. */}
-        {kiteEnv && (
-          <>
-            <script
-              id="kite-analytics-env"
-              dangerouslySetInnerHTML={{
-                __html: `window.__KITE_ENV__=${kiteEnv};`,
-              }}
-            />
-            <script src={`/kite-analytics.js?v=${KITE_SDK_VERSION}`} defer />
-          </>
-        )}
       </head>
       {/* suppressHydrationWarning (html above + body): extensions and the */}
       {/* preview iframe host stamp attributes on both before React hydrates */}

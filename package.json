@@ -17,9 +17,6 @@
     "prettier:fix": "prettier --write ."
   },
   "dependencies": {
-    "@appsmithorg/template-backend": "^1.1.1",
-    "@appsmithorg/template-frontend": "^1.1.9",
-    "@appsmithorg/template-shared": "^1.0.4",
     "lucide-react": "^0.525.0",
     "next": "16.2.7",
     "react": "^19.0.0",
