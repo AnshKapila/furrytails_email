@@ -65,7 +65,7 @@ export default function Home() {
         <div className="hero-copy">
           <p className="eyebrow">Natural care, considered</p>
           <h1>A new morning ritual, <em>for you and your dog.</em></h1>
-          <p className="intro">Early members get first access, founding pricing, and a first look at what we&apos;re building — for your dog, and for you.</p>
+          <p className="intro">Early members get first access, founding pricing, and a first look at what we&apos;re building held to your standard, made for theirs.</p>
 
           {status === 'complete' ? (
             <div className="confirmation" aria-live="polite">
