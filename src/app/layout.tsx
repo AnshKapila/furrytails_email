@@ -31,43 +31,6 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  // PostHog analytics — sits beside Pirsch. Per-site project token injected at
-  // build via NEXT_PUBLIC_POSTHOG_KEY; production-only. The helpers come from
-  // @appsmithorg/template-frontend (>=1.1.7 — the version that exports all
-  // three), the same published-package channel the Payload layout uses; seeded
-  // sites pick up helper changes at publish time. Returns null for a
-  // missing/malformed token.
-  // Capture-off on purpose FOR THIS TEMPLATE ONLY: the Kite analytics SDK below
-  // emits page_viewed/page_engaged as the source of truth and the data-kite-*
-  // stamps are the interaction vocabulary — posthog-js $pageview/$autocapture
-  // would double-count and harvest element text. Consumers without the SDK
-  // (Vite, Payload) keep the helper's capture-on defaults.
-  const posthogScript =
-    process.env.NODE_ENV === 'production'
-      ? buildPosthogInitScript(process.env.NEXT_PUBLIC_POSTHOG_KEY, {
-          capturePageview: false,
-          capturePageleave: false,
-          autocapture: false,
-        })
-      : null;
-
-  // Kite custom-event analytics envelope. The stamp-driven SDK
-  // (/kite-analytics.js) reads window.__KITE_ENV__ and captures through
-  // window.posthog. Production-only; needs both a PostHog project and a website
-  // id. `<` escaped so no value can close the inline <script> (XSS guard).
-  const kiteEnv =
-    process.env.NODE_ENV === 'production' &&
-    isValidPosthogToken(process.env.NEXT_PUBLIC_POSTHOG_KEY) &&
-    process.env.NEXT_PUBLIC_KITE_WEBSITE_ID
-      ? escapeJsonForScript({
-          posthogToken: process.env.NEXT_PUBLIC_POSTHOG_KEY,
-          websiteId: process.env.NEXT_PUBLIC_KITE_WEBSITE_ID,
-          accountId: process.env.NEXT_PUBLIC_KITE_ACCOUNT_ID || undefined,
-          goalType: process.env.NEXT_PUBLIC_KITE_GOAL_TYPE || undefined,
-          schemaVersion: '1.0',
-        })
-      : null;
-
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
